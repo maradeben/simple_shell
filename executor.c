@@ -1,7 +1,7 @@
 #include "shell.h"
 
 /**
- * handle_builtin - Handle Builtin Command
+ * handle_builtin - handle builtin commands
  * @cmd: Parsed Command
  * @er:statue of last Excute
  * Return: -1 Fail 0 Succes (Return :Excute Builtin)
@@ -30,8 +30,7 @@ int handle_builtin(char **cmd, int er)
 	return (-1);
 }
 /**
- * check_cmd - Excute Simple Shell Command (Fork,Wait,Excute)
- *
+ * check_cmd - fork, wait and exec
  * @cmd:Parsed Command
  * @input: User Input
  * @c:Shell Excution Time Case of Command Not Found

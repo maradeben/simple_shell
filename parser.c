@@ -1,69 +1,45 @@
-#include "main.h"
-
-/**
- * count_command - count the number of commands
- * @command: command string
- * Return: the number of command arguments
-*/
-int count_commands(char *command)
-{
-	int number_of_words = 0;
-	char *str_cpy, *word;
-
-	if (command == NULL)
-		return (-1);
-
-	str_cpy = strdup(command);
-	if (str_cpy == NULL)
-		return (-1);
-
-	/* count the number of arguments */
-	word = strtok(str_cpy, " ");
-	while (word != NULL)
-	{
-		if ((*word) == '\n')
-		{
-			word = strtok(NULL, " ");
-			continue;
-		}
-		number_of_words += 1;
-		word = strtok(NULL, " ");
-	}
-	
-	return (number_of_words);
-}
+#include "shell.h"
 
 /**
  * parse_command - split command string into separate words
  * @command: the command
- * @argv: argument vector
- * Return: no return
+ * Return: pointer to pointer to strings
  */
-void parse_command(char *command, char **argv)
+char **parse_command(char *command)
 {
-	char *str_cpy, *word;
-	int i = 0;
+	char *str_cpy, *str_cpy2, *word, **argv;
+	int i = 0, num_args = 0;
 
 	if (command == NULL)
-		exit (98);
-
-	str_cpy = strdup(command);
-	if (str_cpy == NULL)
-		exit (98);
-
-	/* split arguments and store in array */
-	word = strtok(str_cpy, " ");
-	for (i = 0; word != NULL; i++)
+		exit(98);
+	str_cpy = _strdup(command); /* copy to count */
+	str_cpy2 = _strdup(command); /* copy to split */
+	if (str_cpy == NULL || str_cpy2 == NULL)
+		return (NULL);
+	/* count number of args */
+	word = strtok(str_cpy, "\n ");
+	while (word != NULL)
 	{
-		if ((*word) == '\n')
-		{
-			word = strtok(NULL, " ");
-			continue;
-		}
-		argv[i] = malloc(sizeof(char) * (strlen(word) + 1));
-		strcpy(argv[i], word);
-		word = strtok(NULL, " ");
+		num_args += 1;
+		word = strtok(NULL, "\n ");
 	}
 
+	argv = malloc(sizeof(char *) * num_args);
+	if (!argv)
+	{
+		perror("hsh");
+		return (NULL);
+	}
+	/* split arguments and store in array */
+	word = strtok(str_cpy, "\n ");
+	for (i = 0; word != NULL; i++)
+	{
+		argv[i] = malloc(sizeof(char) * (_strlen(word) + 1));
+		strcpy(argv[i], word);
+		word = strtok(NULL, "\n ");
+	}
+	argv[i] = NULL;
 	free(str_cpy);
+
+	return (argv);
 }

@@ -74,9 +74,9 @@ int check_cmd(char **cmd, char *input, int c, char **argv)
 	return (0);
 }
 /**
- * signal_to_handel - Handle ^C
- * @sig:Captured Signal
- * Return: Void
+ * signal_to_handle - handle Ctrl + C
+ * @sig: the signal
+ * Return: no return
  */
 void signal_to_handle(int sig)
 {
